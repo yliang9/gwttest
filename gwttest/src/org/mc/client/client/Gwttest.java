@@ -11,6 +11,7 @@ import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
 import org.mc.client.client.object.Mart;
 import org.mc.client.client.object.SourceContainer;
+import org.mc.client.client.widget.MartButton;
 import org.mc.client.shared.FieldVerifier;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -21,6 +22,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -39,12 +42,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -54,6 +60,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class Gwttest implements EntryPoint {
 	
 	private String username = "yongliang";
+	private FlowPanel mainPanel;
 	private SplitLayoutPanel splitPanel;
 	private VerticalPanel sourceGroupPanel;
 	private FlowPanel portalPanel;
@@ -130,13 +137,23 @@ public class Gwttest implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-	public void onModuleLoad() {				
+	public void onModuleLoad() {		
+		DockLayoutPanel dockPanel = new DockLayoutPanel(Unit.EM);
+		this.mainPanel = new FlowPanel();
+		this.mainPanel.add(this.getMainPanel());
+		dockPanel.addNorth(this.createMenu(), 2);	
+		dockPanel.add(this.mainPanel);
+		RootLayoutPanel.get().add(dockPanel);
+	}
+	
+	private Widget getMainPanel() {
 		DisclosurePanel defaultSource = this.getDefaultSourceGroupPanel();	
 		sourceGroupPanel = new VerticalPanel();
 		sourceGroupPanel.setStyleName("source-panel");
 		sourceGroupPanel.setWidth("100%");
 		sourceGroupPanel.add(defaultSource);
 		
+		//dockPanel.addWest(sourceGroupPanel, 20);
 		portalPanel = new FlowPanel();
 		portalPanel.setWidth("100%");
 		TabLayoutPanel tab = this.getDefaultPortalPanel();
@@ -145,32 +162,21 @@ public class Gwttest implements EntryPoint {
 		splitPanel = new SplitLayoutPanel(5);
 		splitPanel.setWidth("100%");
 		splitPanel.setHeight("100%");
-		splitPanel.setPixelSize(1000, 800);
 		splitPanel.getElement().getStyle().setProperty("border", "3px solid #e7e7e7");
 		
-		splitPanel.addNorth(this.createMenu(), 30);
 		splitPanel.addWest(sourceGroupPanel, 300);
 		splitPanel.add(portalPanel);
 		
-		splitPanel.setStyleName("center");
-		RootPanel.get().add(splitPanel);
-
-		// Focus the cursor on the name field when the app loads
+		return splitPanel;
 	}
 	
 	private MenuBar createMenu() {
-		// Top-level menu
 		MenuBar menutop = new MenuBar();
-		//menutop.addStyleName("demo-MenuItem");
-		//vertical=true
 		MenuBar fileMenu = new MenuBar(true);
-		//fileMenu.addStyleName("demo-MenuItem");
-
-		// Items for menu two
 		MenuItem itemNew = new MenuItem("New", new DialogCommand());
+		itemNew.setEnabled(false);
 		MenuItem itemOpen = new MenuItem("Open Registry", command2);
 
-		// Assemble the menu system
 		menutop.addItem("File", fileMenu); // Creates item and adds menutwo
 		fileMenu.addItem(itemNew);
 		fileMenu.addItem(itemOpen);
@@ -267,7 +273,8 @@ public class Gwttest implements EntryPoint {
 	    		  if(dp==null) 
 	    			  dp = scmap.get("default");
 	    		  
-	    		  Button martbutton = new Button(mart.getName());
+	    		  MartButton martbutton = new MartButton(mart.getName());
+	    		  martbutton.setMart(mart);
 	    		  martbutton.setStyleName("mart-button");
 	    		  VerticalPanel vp = (VerticalPanel)dp.getContent();
 	    		  vp.add(martbutton);
@@ -291,25 +298,8 @@ public class Gwttest implements EntryPoint {
 			VerticalPanel gcp = new VerticalPanel();
 			gcp.setWidth("100%");
 			
-			final FlexTable ftable = new FlexTable();
-			ftable.setWidth("100%");
-			ftable.setText(0, 0, "Accesspoint");
-			ftable.setText(0, 1, "Source");
-			
-			ftable.getRowFormatter().addStyleName(0, "guicontainerHeader");
-			ftable.addStyleName("guicontainer");
-		    ftable.setCellPadding(6);
-		    ftable.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					Cell cell = ftable.getCellForEvent(event);
-					if(cell.getRowIndex()>0) {
-						System.out.println("test");
-					}
-				}
-		    	
-		    });
-		    
+			final CellTable<GuiAccessPoint> table = this.getTable(new ArrayList<GuiAccessPoint>());
+		    gcp.add(table);
 		    //get accesspoint
 			ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
 			AsyncCallback<Collection<GuiAccessPoint>> callback = new AsyncCallback<Collection<GuiAccessPoint>>() {
@@ -318,19 +308,11 @@ public class Gwttest implements EntryPoint {
 				      }
 
 				      public void onSuccess(Collection<GuiAccessPoint> result) {
-				    	  int i=1;
-				    	  for(GuiAccessPoint gap: result) {
-				    		 // Button gapb = new Button(gap.getAccesspoint());
-				    		 // ftable.setWidget(i, 0, gapb);
-				    		  ftable.setText(i, 0, gap.getAccesspoint());
-				    		  ftable.setText(i++, 1, gap.getMart());
-				    	  }
+				    	  List<GuiAccessPoint> data = new ArrayList<GuiAccessPoint>(result);
+				    	  table.setRowData(data);
 				      }
 			};
 			service.getGuiAccessPoints(gc, callback);
-
-		    
-		    gcp.add(ftable);
 			return gcp;
 
 		} else {
@@ -342,6 +324,11 @@ public class Gwttest implements EntryPoint {
 			}
 			return tab;
 		}
+	}
+	
+	private void showConfig() {
+		this.mainPanel.clear();
+		this.mainPanel.add(this.getConfigPanel());
 	}
 	
 	private DisclosurePanel getDefaultSourceGroupPanel() {
@@ -360,15 +347,10 @@ public class Gwttest implements EntryPoint {
 		p.setHeight("100%");
 		VerticalPanel gcp = new VerticalPanel();
 		gcp.setWidth("100%");
-		FlexTable ftable = new FlexTable();
-		ftable.setText(0, 0, "Accesspoint");
-		ftable.setText(0, 1, "Source");
 		
-		ftable.getRowFormatter().addStyleName(0, "guicontainerHeader");
-		ftable.addStyleName("guicontainer");
-		ftable.setWidth("100%");
-	    ftable.setCellPadding(6);
-	    gcp.add(ftable);
+		CellTable<GuiAccessPoint> table = this.getTable(new ArrayList<GuiAccessPoint>());
+	    gcp.add(table);
+	    table.setLoadingIndicator(null);
 	    
 		p.add(gcp,"default");
 	
@@ -376,8 +358,55 @@ public class Gwttest implements EntryPoint {
 
 	}
 	
-	public void createConfigPanel() {
-		DockLayoutPanel dockPanel = new DockLayoutPanel(Unit.EM);
+	private CellTable<GuiAccessPoint> getTable(Collection<GuiAccessPoint> gaps) {
+		CellTable<GuiAccessPoint> table = new CellTable<GuiAccessPoint>();
+		table.setWidth("100%");
+		TextColumn<GuiAccessPoint> apcolumn = new TextColumn<GuiAccessPoint>() {
+			@Override
+			public String getValue(GuiAccessPoint object) {
+				return object.getAccesspoint();
+			}			
+		};
 		
+		TextColumn<GuiAccessPoint> sourcecolumn = new TextColumn<GuiAccessPoint>() {
+			@Override
+			public String getValue(GuiAccessPoint object) {
+				return object.getMart();
+			}			
+		};
+		table.addColumn(apcolumn,"Accesspoint");
+		table.addColumn(sourcecolumn,"Source");
+		return table;
 	}
+	
+	private Widget getConfigPanel() {
+		SplitLayoutPanel configPanel = new SplitLayoutPanel(5);
+		configPanel.setWidth("100%");
+		configPanel.setHeight("100%");
+		//get config
+		//hardcode for now
+		
+		Tree targetTree = new Tree();
+		targetTree.setWidth("100%");
+		targetTree.setHeight("100%");
+		TreeItem rootItem = new TreeItem("gene_vega");
+		rootItem.addItem("test");
+		rootItem.addItem("test");
+
+		rootItem.addItem("test");
+		targetTree.addItem(rootItem);
+		
+		//create source 		
+		SplitLayoutPanel sourcePanel = new SplitLayoutPanel(5);
+		SplitLayoutPanel targetPanel = new SplitLayoutPanel(5);
+		
+		configPanel.addWest(sourcePanel, 300);
+		configPanel.add(targetPanel);
+		
+		sourcePanel.addNorth(new HTML("test"), 300);
+		targetPanel.addNorth(targetTree, 300);
+		return configPanel;
+	}
+	
+	
 }
