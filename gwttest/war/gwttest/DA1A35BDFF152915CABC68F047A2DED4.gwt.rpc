@@ -1,0 +1,39 @@
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+java.lang.Boolean, true, true, false, false, java.lang.Boolean/476441737, 476441737
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+[Ljava.lang.String;, true, true, false, false, [Ljava.lang.String;/2600011424, 2600011424
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.util.ArrayList, true, true, true, true, java.util.ArrayList/4159755760, 4159755760
+java.util.Arrays$ArrayList, true, true, true, true, java.util.Arrays$ArrayList/2507071751, 2507071751
+java.util.Collections$EmptyList, true, true, true, true, java.util.Collections$EmptyList/4157118744, 4157118744
+java.util.Collections$EmptyMap, true, true, true, true, java.util.Collections$EmptyMap/4174664486, 4174664486
+java.util.Collections$EmptySet, true, true, false, false, java.util.Collections$EmptySet/3523698179, 3523698179
+java.util.Collections$SingletonList, true, true, true, true, java.util.Collections$SingletonList/1586180994, 1586180994
+java.util.HashMap, true, true, true, true, java.util.HashMap/1797211028, 1797211028
+java.util.HashSet, true, true, false, false, java.util.HashSet/3273092938, 3273092938
+java.util.IdentityHashMap, true, true, true, true, java.util.IdentityHashMap/1839153020, 1839153020
+java.util.LinkedHashMap, true, true, true, true, java.util.LinkedHashMap/3008245022, 3008245022
+java.util.LinkedHashSet, true, true, false, false, java.util.LinkedHashSet/1826081506, 1826081506
+java.util.LinkedList, true, true, true, true, java.util.LinkedList/3953877921, 3953877921
+java.util.Stack, true, true, true, true, java.util.Stack/1346942793, 1346942793
+java.util.TreeMap, true, true, true, true, java.util.TreeMap/1493889780, 1493889780
+java.util.TreeSet, true, true, false, false, java.util.TreeSet/4043497002, 4043497002
+java.util.Vector, true, true, true, true, java.util.Vector/3057315478, 3057315478
+org.mc.client.client.ConfiguratorService, false, false, false, false, _, 3867943808
+org.mc.client.client.object.GuiAccessPoint, true, true, false, false, org.mc.client.client.object.GuiAccessPoint/618462446, 618462446
+@ClientFields,org.mc.client.client.object.GuiAccessPoint,ord,parentid
+[Lorg.mc.client.client.object.GuiAccessPoint;, true, true, false, false, [Lorg.mc.client.client.object.GuiAccessPoint;/726764503, 726764503
+org.mc.client.client.object.GuiContainer, true, true, true, true, org.mc.client.client.object.GuiContainer/303008389, 303008389
+@ClientFields,org.mc.client.client.object.GuiContainer,subGuiContainer,ord,parentid,level
+[Lorg.mc.client.client.object.GuiContainer;, true, true, true, true, [Lorg.mc.client.client.object.GuiContainer;/2034593884, 2034593884
+org.mc.client.client.object.LiteObject, true, false, true, false, org.mc.client.client.object.LiteObject/840745721, 840745721
+org.mc.client.client.object.Mart, true, true, false, false, org.mc.client.client.object.Mart/2865170030, 2865170030
+@ClientFields,org.mc.client.client.object.Mart,registryid,ord
+[Lorg.mc.client.client.object.Mart;, true, true, false, false, [Lorg.mc.client.client.object.Mart;/2139694181, 2139694181
+org.mc.client.client.object.SourceContainer, true, true, false, false, org.mc.client.client.object.SourceContainer/2810636677, 2810636677
+@ClientFields,org.mc.client.client.object.SourceContainer,expanded,ord,parentid
+[Lorg.mc.client.client.object.SourceContainer;, true, true, false, false, [Lorg.mc.client.client.object.SourceContainer;/4286125481, 4286125481
