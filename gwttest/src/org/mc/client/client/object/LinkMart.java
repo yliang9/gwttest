@@ -2,7 +2,7 @@ package org.mc.client.client.object;
 
 
 
-public class LinkMart extends LiteObject {
+public class LinkMart extends McLiteObject {
 
 	public void setAttributes(String value){
 		this.setProperty(XMLElements.ATTRIBUTES, value);

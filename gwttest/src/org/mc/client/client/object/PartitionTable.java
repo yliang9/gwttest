@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.biomart.configurator.controller.RequestHandler;
 
-public class PartitionTable extends LiteObject {
+public class PartitionTable extends McLiteObject {
 	 private List<List<String>> table;
 	 
 	 public void setMart(String mart) {

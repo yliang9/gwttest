@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="SOURCECONTAINER")
-public class SourceContainer extends LiteObject {
+public class SourceContainer extends McLiteObject {
 
 	private boolean expanded = true;
 	

@@ -10,7 +10,7 @@ import javax.persistence.Column;
 
 @Entity
 @Table(name="MCUSER")
-public class McUser extends LiteObject {
+public class McUser extends McLiteObject {
 	
 	@Id
 	@GeneratedValue

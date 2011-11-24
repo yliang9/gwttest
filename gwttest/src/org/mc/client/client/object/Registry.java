@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="MARTREGISTRY")
-public class Registry extends LiteObject {
+public class Registry extends McLiteObject {
 	
 	private long userid;
 	

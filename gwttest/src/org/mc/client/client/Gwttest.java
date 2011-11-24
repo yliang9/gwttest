@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.mc.client.client.command.DialogCommand;
+import org.mc.client.client.object.Container;
 import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
@@ -28,6 +29,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -96,7 +98,7 @@ public class Gwttest implements EntryPoint {
 		   ConfiguratorServiceAsync stockPriceSvc = GWT.create(ConfiguratorService.class);
 		   AsyncCallback<Collection<String>> callback = new AsyncCallback<Collection<String>>() {
 			      public void onFailure(Throwable caught) {
-			    	  System.out.println("error");
+			    	  caught.printStackTrace();
 			    	  cancel.setEnabled(true);
 			    	  messageLabel.setText("Query error");
 			      }
@@ -195,7 +197,7 @@ public class Gwttest implements EntryPoint {
 		ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
 		AsyncCallback<Collection<SourceContainer>> callback = new AsyncCallback<Collection<SourceContainer>>() {
 			      public void onFailure(Throwable caught) {
-			    	  System.out.println("t");
+			    	  caught.printStackTrace();
 			      }
 
 			      public void onSuccess(Collection<SourceContainer> result) {
@@ -211,7 +213,7 @@ public class Gwttest implements EntryPoint {
 		//get all marts
 		AsyncCallback<Collection<Mart>> martcallback = new AsyncCallback<Collection<Mart>>() {
 		      public void onFailure(Throwable caught) {
-		    	  System.out.println("t");
+		    	  caught.printStackTrace();
 		      }
 
 		      public void onSuccess(Collection<Mart> result) {
@@ -226,7 +228,7 @@ public class Gwttest implements EntryPoint {
 		//refresh portal
 		AsyncCallback<GuiContainer> gccallback = new AsyncCallback<GuiContainer>() {
 		      public void onFailure(Throwable caught) {
-		    	  System.out.println("t");
+		    	  caught.printStackTrace();
 		      }
 
 		      public void onSuccess(GuiContainer result) {
@@ -342,7 +344,7 @@ public class Gwttest implements EntryPoint {
 			ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
 			AsyncCallback<Collection<GuiAccessPoint>> callback = new AsyncCallback<Collection<GuiAccessPoint>>() {
 				      public void onFailure(Throwable caught) {
-				    	  System.out.println("t");
+				    	  caught.printStackTrace();
 				      }
 
 				      public void onSuccess(Collection<GuiAccessPoint> result) {
@@ -427,17 +429,18 @@ public class Gwttest implements EntryPoint {
 		ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
 		AsyncCallback<McConfig> callback = new AsyncCallback<McConfig>() {
 		      public void onFailure(Throwable caught) {
-		    	  System.out.println("t");
+		    	  caught.printStackTrace();
 		      }
 	
 		      public void onSuccess(McConfig result) {
-		    	  resetTree(spsource,result);
+		    	  //get rootcontainer;
+		    	  getRootContainer(spsource,result);
 		      }
 		};		
 		service.getMasterConfig(mart, callback);
 
 		
-		TreeViewModel model = new ConfigTreeModel(null);
+		TreeViewModel model = new ConfigTreeModel(null,null);
 
 	    /*
 	     * Create the tree using the model. We specify the default value of the
@@ -445,27 +448,43 @@ public class Gwttest implements EntryPoint {
 	     */
 	    CellTree treeSource = new CellTree(model, "root");
 	    CellTree treeTarget = new CellTree(model,"root");
+	    
+//	    treeSource.setEmptyTreeItemMessage(SafeHtmlUtils.fromString("data loading ..."));
 		//create source 		
 		SplitLayoutPanel sourcePanel = new SplitLayoutPanel(5);
 		SplitLayoutPanel targetPanel = new SplitLayoutPanel(5);
 		
-		configPanel.addWest(sourcePanel, 300);
+		configPanel.addWest(sourcePanel, 500);
 		configPanel.add(targetPanel);
 		
 		spsource.add(treeSource);
 		sptarget.add(treeTarget);
 		
-		sourcePanel.addNorth(spsource, 300);
-		targetPanel.addNorth(sptarget, 300);
+		sourcePanel.addNorth(spsource, 400);
+		targetPanel.addNorth(sptarget, 400);
 		return configPanel;
 	}
 	
-	private void resetTree(ScrollPanel sp, McConfig config) {
+	private void getRootContainer(final ScrollPanel sp, final McConfig config) {
+		ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
+		AsyncCallback<Container> callback = new AsyncCallback<Container>() {
+		      public void onFailure(Throwable caught) {
+		    	  caught.printStackTrace();
+		      }
+	
+		      public void onSuccess(Container result) {
+		    	  resetTree(sp,config,result);
+		      }
+		};		
+		service.getRootContainerRecursively(config, callback); 
+	}
+	
+	private void resetTree(ScrollPanel sp, McConfig config, Container rootContainer) {		
 		sp.clear();
-		TreeViewModel model = new ConfigTreeModel(config);
+		TreeViewModel model = new ConfigTreeModel(config,rootContainer);
 		CellTree tree = new CellTree(model, "root");
 		
-		sp.add(tree); 
+		sp.add(tree);
 	}
 	
 	

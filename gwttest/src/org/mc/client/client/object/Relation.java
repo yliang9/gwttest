@@ -2,7 +2,7 @@ package org.mc.client.client.object;
 
 
 
-public class Relation extends LiteObject {
+public class Relation extends McLiteObject {
 
 	private String parentname;
 	private boolean inSource;

@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="CONFIG")
 @XmlRootElement(name="config")
-public class McConfig extends LiteObject {
+public class McConfig extends McLiteObject {
 	
 	private int ord;
 	private long martid;

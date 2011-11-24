@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="MCTABLE")
-public class DatasetTable extends LiteObject {
+public class DatasetTable extends McLiteObject {
 
 	private int ord;
 	private long parentid;

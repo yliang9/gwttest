@@ -1,7 +1,7 @@
 package org.mc.client.client.object;
 
 
-public class Portable extends LiteObject {
+public class Portable extends McLiteObject {
 	private String type;
 	private boolean portableType;
 	private String parent;

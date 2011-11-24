@@ -10,7 +10,7 @@ import javax.persistence.Column;
 
 @Entity
 @Table(name="USERGROUP")
-public class UserGroup extends LiteObject {
+public class UserGroup extends McLiteObject {
 	
 	private int ord;
 	private long registryid;

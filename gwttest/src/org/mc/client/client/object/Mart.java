@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="MART")
 @XmlRootElement(name="mart")
-public class Mart extends LiteObject {
+public class Mart extends McLiteObject {
 		
 	/**
 	 * 

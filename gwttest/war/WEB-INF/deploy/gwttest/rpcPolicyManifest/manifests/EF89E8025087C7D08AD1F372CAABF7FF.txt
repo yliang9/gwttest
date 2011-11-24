@@ -1,2 +1,0 @@
-serviceClass: org.mc.client.client.ConfiguratorService
-path: AE71F2AA4D3F7C1228D47746D3553D24.gwt.rpc

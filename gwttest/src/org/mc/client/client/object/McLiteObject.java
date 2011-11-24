@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public abstract class LiteObject implements Serializable {
+public abstract class McLiteObject implements Serializable {
 	
 	//default is true
 	private boolean master = true;
@@ -22,7 +22,7 @@ public abstract class LiteObject implements Serializable {
 	
 	private Map<String,String> properties;
 	
-	protected LiteObject() {
+	protected McLiteObject() {
 		this.properties = new HashMap<String,String>();
 	}
 	

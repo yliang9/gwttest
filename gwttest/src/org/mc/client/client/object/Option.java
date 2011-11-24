@@ -7,12 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.mc.client.client.object.LiteObject;
+import org.mc.client.client.object.McLiteObject;
 
 @Entity
 @Table(name="FILTEROPTION")
 @XmlRootElement(name="option")
-public class Option extends LiteObject {
+public class Option extends McLiteObject {
 	private long filterid;
 	private long id;
 	private long datasetid;

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="PARTITIONROW")
-public class PartitionRow extends LiteObject {
+public class PartitionRow extends McLiteObject {
 	private int ord;
 	private long martid;
 	

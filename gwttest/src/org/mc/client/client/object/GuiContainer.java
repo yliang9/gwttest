@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="GUICONTAINER")
-public class GuiContainer extends LiteObject{
+public class GuiContainer extends McLiteObject{
 
 	private List<GuiContainer> subGuiContainer;
 	private int ord;

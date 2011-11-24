@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="MCKEY")
-public class Key extends LiteObject {
+public class Key extends McLiteObject {
 
 	private int ord;
 	private long parentid;

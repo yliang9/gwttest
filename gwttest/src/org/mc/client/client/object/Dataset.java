@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="DATASET")
-public class Dataset extends LiteObject {
+public class Dataset extends McLiteObject {
 	private int ord;
 	private long martid;
 	

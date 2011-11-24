@@ -9,7 +9,7 @@ import javax.persistence.Column;
 
 @Entity
 @Table(name="GUIACCESSPOINT")
-public class GuiAccessPoint extends LiteObject{
+public class GuiAccessPoint extends McLiteObject{
 
 	private int ord;
 	private long parentid;

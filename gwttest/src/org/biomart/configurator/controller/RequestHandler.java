@@ -26,7 +26,7 @@ import org.mc.client.client.object.Container;
 import org.mc.client.client.object.FilterType;
 import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
-import org.mc.client.client.object.LiteObject;
+import org.mc.client.client.object.McLiteObject;
 import org.mc.client.client.object.Mart;
 import org.mc.client.client.object.McNodeType;
 import org.mc.client.client.object.PartitionUtils;
@@ -112,7 +112,7 @@ public class RequestHandler {
 		return false;
 	}
 
-	public boolean requestRemoveObject(Collection<LiteObject> objects) {
+	public boolean requestRemoveObject(Collection<McLiteObject> objects) {
 		
 		return false;
 	}
