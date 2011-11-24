@@ -84,9 +84,9 @@ public class RequestHandler {
 	
 
 
-	public Container getRootContainerRecursively(String mart, String config) {
+	public Container getRootContainerRecursively(Config config) {
 		return DaoFactoryV2.getFactory(DaoType.valueOf(Settings.getProperty("persistent.type"))).
-				getDaoObject().getRootContainerRecursively(mart, config);
+				getDaoObject().getRootContainerRecursively(config);
 	}
 
 	
@@ -141,5 +141,11 @@ public class RequestHandler {
 		return DaoFactoryV2.getFactory(DaoType.valueOf(Settings.getProperty("persistent.type"))).
 				getDaoObject().getGuiAccessPoints(gc);
 	}
+	
+	public Config getMasterConfig(Mart mart) {
+		return DaoFactoryV2.getFactory(DaoType.valueOf(Settings.getProperty("persistent.type"))).
+				getDaoObject().getMasterConfig(mart);
+	}
+
 
 }

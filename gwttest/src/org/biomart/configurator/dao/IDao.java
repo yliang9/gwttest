@@ -37,11 +37,14 @@ public interface IDao {
 	public Mart getMartByName(String name);
 	public Config getAccessPoint(String mart, String accesspoint);
 	public Collection<SourceContainer> getSourceContainers();
-	//public Filter getFilter(String )
-	public Container getRootContainerRecursively(String mart, String accesspoint);
 	public Collection<Dataset> getDatasets(String martname);
 	public Dataset getDataset(String mart, String dsname);
 	public GuiContainer getRootGuiContainer(String user, String registry);
 	public Collection<GuiAccessPoint> getGuiAccessPoints(GuiContainer gc);
+
+	public Collection<Config> getAllConfigsInMart(Mart mart);
+	public Collection<Config> getAllAccessPointInMart(Mart mart);
+	public Config getMasterConfig(Mart mart);
+	public Container getRootContainerRecursively(Config config);
 
 }

@@ -6,10 +6,6 @@ h1 {
   text-align: center;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
-}
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
@@ -30,7 +26,7 @@ h1 {
 
 .center{
     margin: 0px auto;
-    width: 480px;
+    width: 80%;
 }
 
 .demo-MenuBar
@@ -90,9 +86,9 @@ h1 {
 }
 
 .gwt-DisclosurePanel .content {
-	border-left: none;
   padding: 4px 0px 4px 8px;
   margin-left: 6px;
+  text-decoration: none;
 }
 
 .gwt-TabLayoutPanel {
@@ -104,17 +100,15 @@ h1 {
 } 
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
-		margin-top: 6px;
-	  padding: 3px 8px 3px 8px;
+	  margin-top: 6px;
+	  padding: 10px 8px 10px 8px;
 	  cursor: pointer;
 	  cursor: hand;
-	  color: black;
-	  color: #8bc53d;
 	  text-align: center;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
-  cursor: default;
+  	cursor: default;
 }
 
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTabInner {
@@ -124,15 +118,47 @@ h1 {
 	width: 100%
 }
 
+.gwt-Button {
+  padding: 3px 5px;
+  font-size: small;
+  cursor: pointer;
+  cursor: hand;
+  border: 1px outset #ccc;
+}
+
+
 .mart-button {
 	width: 95%;
-	background-color: grey;
+	margin: 3px 3px 3px 0px;
+	padding: 6px 10px 6px 10px;
+	background-color: #F0F0F0;
 	text-align: left;
+	cursor: pointer;
+ 	cursor: hand;
 	border:none;
 	border-radius: 5px;
 }
 
+
+
+.gwt-Button:hover {
+	color: #FF0000;
+  border-color: #9cf #69e #69e #7af;
+}
+
+
+
 .source-panel {
 	width: 100%;
 	
+}
+
+.gwt-SplitLayoutPanel {
+	width: 100%;
+	height: 100%;
+	border-left : 1px solid #e7e7e7;
+}
+
+.gwt-SplitLayoutPanel .gwt-SplitLayoutPanel-VDragger {
+	color: #e7e7e7;
 }

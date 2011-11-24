@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.mc.client.client.command.DialogCommand;
+import org.mc.client.client.object.Config;
 import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
 import org.mc.client.client.object.Mart;
 import org.mc.client.client.object.SourceContainer;
+import org.mc.client.client.widget.ConfigTreeModel;
 import org.mc.client.client.widget.MartButton;
 import org.mc.client.shared.FieldVerifier;
 
@@ -22,7 +24,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -44,6 +51,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -53,6 +61,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.TreeViewModel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -139,6 +148,7 @@ public class Gwttest implements EntryPoint {
 	 */
 	public void onModuleLoad() {		
 		DockLayoutPanel dockPanel = new DockLayoutPanel(Unit.EM);
+		dockPanel.setStyleName("center");
 		this.mainPanel = new FlowPanel();
 		this.mainPanel.add(this.getMainPanel());
 		dockPanel.addNorth(this.createMenu(), 2);	
@@ -147,11 +157,10 @@ public class Gwttest implements EntryPoint {
 	}
 	
 	private Widget getMainPanel() {
-		DisclosurePanel defaultSource = this.getDefaultSourceGroupPanel();	
 		sourceGroupPanel = new VerticalPanel();
 		sourceGroupPanel.setStyleName("source-panel");
 		sourceGroupPanel.setWidth("100%");
-		sourceGroupPanel.add(defaultSource);
+		this.setDefaultSourceGroupPanel();
 		
 		//dockPanel.addWest(sourceGroupPanel, 20);
 		portalPanel = new FlowPanel();
@@ -159,10 +168,10 @@ public class Gwttest implements EntryPoint {
 		TabLayoutPanel tab = this.getDefaultPortalPanel();
 		portalPanel.add(tab);
 		
-		splitPanel = new SplitLayoutPanel(5);
-		splitPanel.setWidth("100%");
-		splitPanel.setHeight("100%");
-		splitPanel.getElement().getStyle().setProperty("border", "3px solid #e7e7e7");
+		splitPanel = new SplitLayoutPanel(3);
+	//	splitPanel.setWidth("100%");
+	//	splitPanel.setHeight("100%");
+	//	splitPanel.getElement().getStyle().setProperty("border", "3px solid #e7e7e7");
 		
 		splitPanel.addWest(sourceGroupPanel, 300);
 		splitPanel.add(portalPanel);
@@ -172,6 +181,7 @@ public class Gwttest implements EntryPoint {
 	
 	private MenuBar createMenu() {
 		MenuBar menutop = new MenuBar();
+		menutop.setAutoOpen(true);
 		MenuBar fileMenu = new MenuBar(true);
 		MenuItem itemNew = new MenuItem("New", new DialogCommand());
 		itemNew.setEnabled(false);
@@ -245,41 +255,73 @@ public class Gwttest implements EntryPoint {
 	}
 	
 	private void resetSourceGroupPanel() {
-		Map<String,DisclosurePanel> scmap = new HashMap<String,DisclosurePanel>();
 		if(scReady && martsReady) {
-			sourceGroupPanel.clear();
-			//add source container
-			for(SourceContainer sc: this.sclist) {
-				DisclosurePanel dp = new DisclosurePanel(sc.getDisplayname());
-				dp.setWidth("100%");
-				dp.setOpen(true);
-				VerticalPanel vp = new VerticalPanel();
-				vp.setStyleName("source-panel");
-
-				Button add = new Button("add source");
-	    		  add.setEnabled(false);
-
-	    		  vp.add(add);
-	    		  dp.add(vp);
-	    		  sourceGroupPanel.add(dp);
-	    		  scmap.put(sc.getName(), dp);
-			}
-			
-			for(Mart mart: this.martlist) {
-	    		  String scname = mart.getSourcecontainer();
-	    		  if(scname.isEmpty())
-	    			  scname = "default";
-	    		  DisclosurePanel dp = scmap.get(scname);
-	    		  if(dp==null) 
-	    			  dp = scmap.get("default");
-	    		  
-	    		  MartButton martbutton = new MartButton(mart.getName());
-	    		  martbutton.setMart(mart);
-	    		  martbutton.setStyleName("mart-button");
-	    		  VerticalPanel vp = (VerticalPanel)dp.getContent();
-	    		  vp.add(martbutton);
-			}
+			this.setSourceGroupPanel(this.sclist, this.martlist);
 		}
+	}
+	
+	private void setSourceGroupPanel(List<SourceContainer> scs, List<Mart> marts) {
+		Map<String,DisclosurePanel> scmap = new HashMap<String,DisclosurePanel>();
+		sourceGroupPanel.clear();
+		//add source container
+		for(SourceContainer sc: scs) {
+			DisclosurePanel dp = new DisclosurePanel(sc.getDisplayname());
+			dp.setWidth("100%");
+			dp.setOpen(true);
+			VerticalPanel vp = new VerticalPanel();
+			vp.setStyleName("source-panel");
+
+			Button add = new Button("add source");
+			add.getElement().getStyle().setMarginBottom(6, Unit.PX);
+    		  add.setEnabled(false);
+
+    		  vp.add(add);
+    		  dp.add(vp);
+    		  sourceGroupPanel.add(dp);
+    		  scmap.put(sc.getName(), dp);
+		}
+		
+		for(Mart mart: marts) {
+    		  String scname = mart.getSourcecontainer();
+    		  if(scname.isEmpty())
+    			  scname = "default";
+    		  DisclosurePanel dp = scmap.get(scname);
+    		  if(dp==null) 
+    			  dp = scmap.get("default");
+    		  
+    		  MartButton martbutton = new MartButton(mart.getName());
+    		  martbutton.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					MartButton button = (MartButton)event.getSource();
+					showConfig(button.getMart(),null);
+				}	    			  
+    		  });
+    		  martbutton.addMouseOverHandler(new MouseOverHandler() {
+
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					MartButton button = (MartButton)event.getSource();
+					button.getElement().getStyle().setBackgroundColor("#FF9900");
+				}
+    			  
+    		  });
+    		  
+    		  martbutton.addMouseOutHandler(new MouseOutHandler() {
+
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					MartButton button = (MartButton)event.getSource();
+					button.getElement().getStyle().setBackgroundColor("#F0F0F0");		
+				}
+    			  
+    		  });
+    		  martbutton.setMart(mart);
+    		  martbutton.setStyleName("mart-button");
+    		  VerticalPanel vp = (VerticalPanel)dp.getContent();
+    		  vp.add(martbutton);
+		}
+
 	}
 	
 	private void resetPortalPanel(GuiContainer rootgc) {
@@ -326,19 +368,18 @@ public class Gwttest implements EntryPoint {
 		}
 	}
 	
-	private void showConfig() {
+	private void showConfig(Mart mart, Config config) {
 		this.mainPanel.clear();
-		this.mainPanel.add(this.getConfigPanel());
+		this.mainPanel.add(this.getConfigPanel(mart,config));
 	}
 	
-	private DisclosurePanel getDefaultSourceGroupPanel() {
-		DisclosurePanel defaultSGP = new DisclosurePanel("default");
-		defaultSGP.setWidth("100%");
-		defaultSGP.setOpen(true);
-		Button add = new Button("add source");
-		add.setEnabled(false);
-		defaultSGP.setContent(add);
-		return defaultSGP;
+	private void setDefaultSourceGroupPanel() {
+		List<SourceContainer> scs = new ArrayList<SourceContainer>();
+		SourceContainer defaultsc = new SourceContainer();
+		defaultsc.setName("default");
+		defaultsc.setDisplayname("default");
+		scs.add(defaultsc);
+		this.setSourceGroupPanel(scs, new ArrayList<Mart>());
 	}
 
 	private TabLayoutPanel getDefaultPortalPanel() {
@@ -379,23 +420,35 @@ public class Gwttest implements EntryPoint {
 		return table;
 	}
 	
-	private Widget getConfigPanel() {
+	private Widget getConfigPanel(Mart mart, Config config) {
 		SplitLayoutPanel configPanel = new SplitLayoutPanel(5);
 		configPanel.setWidth("100%");
 		configPanel.setHeight("100%");
-		//get config
-		//hardcode for now
 		
-		Tree targetTree = new Tree();
-		targetTree.setWidth("100%");
-		targetTree.setHeight("100%");
-		TreeItem rootItem = new TreeItem("gene_vega");
-		rootItem.addItem("test");
-		rootItem.addItem("test");
+		final ScrollPanel spsource = new ScrollPanel();
+		final ScrollPanel sptarget = new ScrollPanel();
+		//get master config for mart
+		ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
+		AsyncCallback<Config> callback = new AsyncCallback<Config>() {
+		      public void onFailure(Throwable caught) {
+		    	  System.out.println("t");
+		      }
+	
+		      public void onSuccess(Config result) {
+		    	  resetTree(spsource,result);
+		      }
+		};		
+		service.getMasterConfig(mart, callback);
 
-		rootItem.addItem("test");
-		targetTree.addItem(rootItem);
 		
+		TreeViewModel model = new ConfigTreeModel(null);
+
+	    /*
+	     * Create the tree using the model. We specify the default value of the
+	     * hidden root node as "Item 1".
+	     */
+	    CellTree treeSource = new CellTree(model, "Config");
+	    CellTree treeTarget = new CellTree(model,"Config");
 		//create source 		
 		SplitLayoutPanel sourcePanel = new SplitLayoutPanel(5);
 		SplitLayoutPanel targetPanel = new SplitLayoutPanel(5);
@@ -403,9 +456,20 @@ public class Gwttest implements EntryPoint {
 		configPanel.addWest(sourcePanel, 300);
 		configPanel.add(targetPanel);
 		
-		sourcePanel.addNorth(new HTML("test"), 300);
-		targetPanel.addNorth(targetTree, 300);
+		spsource.add(treeSource);
+		sptarget.add(treeTarget);
+		
+		sourcePanel.addNorth(spsource, 300);
+		targetPanel.addNorth(sptarget, 300);
 		return configPanel;
+	}
+	
+	private void resetTree(ScrollPanel sp, Config config) {
+		sp.clear();
+		TreeViewModel model = new ConfigTreeModel(config);
+		CellTree tree = new CellTree(model, "Config");
+		
+		sp.add(tree); 
 	}
 	
 	

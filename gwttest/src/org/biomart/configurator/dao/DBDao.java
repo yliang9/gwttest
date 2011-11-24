@@ -253,8 +253,7 @@ public class DBDao implements IDao {
 	}
 
 	@Override
-	public Container getRootContainerRecursively(String mart, String accesspoint) {
-		Config config = this.getAccessPoint(mart, accesspoint);
+	public Container getRootContainerRecursively(Config config) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		//get root container;
 		Query query = session.createQuery(" from Container where parentid=:parentid and level=0");
@@ -368,6 +367,47 @@ public class DBDao implements IDao {
 		session.close();
 		return gaplist;
 	}
+
+	@Override
+	public Collection<Config> getAllConfigsInMart(Mart mart) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Query query = session.createQuery(" from Config where MARTID=:parentid order by ord");
+		query.setParameter("parentid", mart.getId());
+		List<Config> gaplist = query.list();
+		session.close();
+		for(Config config: gaplist) {
+			config.setMart(mart.getName());
+		}
+		return gaplist;
+	}
+
+	@Override
+	public Collection<Config> getAllAccessPointInMart(Mart mart) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Query query = session.createQuery(" from Config where MARTID=:parentid and master=0 order by ord");
+		query.setParameter("parentid", mart.getId());
+		List<Config> gaplist = query.list();
+		session.close();
+		for(Config config: gaplist) {
+			config.setMart(mart.getName());
+		}
+		return gaplist;
+	}
+
+	@Override
+	public Config getMasterConfig(Mart mart) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Query query = session.createQuery(" from Config where MARTID=:parentid and master=1");
+		query.setParameter("parentid", mart.getId());
+		List<Config> gaplist = query.list();
+		session.close();
+		if(gaplist.isEmpty())
+			return null;
+		gaplist.get(0).setMart(mart.getName());
+		return gaplist.get(0);
+	}
+
+
 
 	
 }
