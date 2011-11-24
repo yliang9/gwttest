@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.biomart.common.utils.McGuiUtils;
 import org.biomart.configurator.controller.RequestHandler;
 import org.mc.client.client.ConfiguratorService;
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.Container;
 import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
@@ -53,12 +53,12 @@ public class ConfiguratorServiceImpl extends RemoteServiceServlet implements Con
 	}
 
 	@Override
-	public Container getRootContainerRecursively(Config config) {
+	public Container getRootContainerRecursively(McConfig config) {
 		return RequestHandler.getInstance().getRootContainerRecursively(config);
 	}
 
 	@Override
-	public Config getMasterConfig(Mart mart) {
+	public McConfig getMasterConfig(Mart mart) {
 		return RequestHandler.getInstance().getMasterConfig(mart);
 	}
 }

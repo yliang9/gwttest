@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="CONFIG")
 @XmlRootElement(name="config")
-public class Config extends LiteObject {
+public class McConfig extends LiteObject {
 	
 	private int ord;
 	private long martid;
@@ -147,9 +147,9 @@ public class Config extends LiteObject {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj ==null || !(obj instanceof Config))
+		if(obj ==null || !(obj instanceof McConfig))
 			return false;
-		Config config = (Config)obj;
+		McConfig config = (McConfig)obj;
 		return this.getMart().equals(config.getMart()) && 
 				this.getName().equals(config.getName());
 	}

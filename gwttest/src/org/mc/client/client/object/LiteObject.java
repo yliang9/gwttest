@@ -66,7 +66,7 @@ public abstract class LiteObject implements Serializable {
 			return McNodeType.ATTRIBUTE;
 		else if(this instanceof LiteColumn) 
 			return McNodeType.COLUMN;
-		else if(this instanceof Config)
+		else if(this instanceof McConfig)
 			return McNodeType.CONFIG;
 		else if(this instanceof Container)
 			return McNodeType.CONTAINER;

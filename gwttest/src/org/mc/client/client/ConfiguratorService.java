@@ -3,7 +3,7 @@ package org.mc.client.client;
 
 import java.util.Collection;
 
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.Container;
 import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
@@ -20,6 +20,6 @@ public interface ConfiguratorService extends RemoteService {
 	public Collection<String> getAllRegistrysForUser(String username);
 	public GuiContainer getRootGuiContainer(String username, String registry);
 	public Collection<GuiAccessPoint> getGuiAccessPoints(GuiContainer gc);
-	public Container getRootContainerRecursively(Config config);
-	public Config getMasterConfig(Mart mart);
+	public Container getRootContainerRecursively(McConfig config);
+	public McConfig getMasterConfig(Mart mart);
 }

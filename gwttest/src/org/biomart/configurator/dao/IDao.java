@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.mc.client.client.object.Attribute;
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.Container;
 import org.mc.client.client.object.Dataset;
 import org.mc.client.client.object.Filter;
@@ -18,7 +18,7 @@ import org.mc.client.client.object.SourceContainer;
 public interface IDao {
 	public Object addRegistry(Registry registry);
 	public Object addMart(Mart mart);
-	public Object addConfig(Config config);
+	public Object addConfig(McConfig config);
 	
 	public Object addContainer(Container container);
 	public Object addAttribute(Attribute attribute);
@@ -35,16 +35,16 @@ public interface IDao {
 	public Collection<Mart> getMarts(String user, String registry);
 	public Registry getRegistry();
 	public Mart getMartByName(String name);
-	public Config getAccessPoint(String mart, String accesspoint);
+	public McConfig getAccessPoint(String mart, String accesspoint);
 	public Collection<SourceContainer> getSourceContainers();
 	public Collection<Dataset> getDatasets(String martname);
 	public Dataset getDataset(String mart, String dsname);
 	public GuiContainer getRootGuiContainer(String user, String registry);
 	public Collection<GuiAccessPoint> getGuiAccessPoints(GuiContainer gc);
 
-	public Collection<Config> getAllConfigsInMart(Mart mart);
-	public Collection<Config> getAllAccessPointInMart(Mart mart);
-	public Config getMasterConfig(Mart mart);
-	public Container getRootContainerRecursively(Config config);
+	public Collection<McConfig> getAllConfigsInMart(Mart mart);
+	public Collection<McConfig> getAllAccessPointInMart(Mart mart);
+	public McConfig getMasterConfig(Mart mart);
+	public Container getRootContainerRecursively(McConfig config);
 
 }

@@ -21,7 +21,7 @@ public class HibernateUtil {
 								.addAnnotatedClass(org.mc.client.client.object.McUser.class)
 								.addAnnotatedClass(org.mc.client.client.object.Registry.class)
 								.addAnnotatedClass(org.mc.client.client.object.Mart.class)
-								.addAnnotatedClass(org.mc.client.client.object.Config.class)
+								.addAnnotatedClass(org.mc.client.client.object.McConfig.class)
 								.addAnnotatedClass(org.mc.client.client.object.Container.class)
 								.addAnnotatedClass(org.mc.client.client.object.Attribute.class)
 								.addAnnotatedClass(org.mc.client.client.object.Filter.class)

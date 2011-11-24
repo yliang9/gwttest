@@ -16,7 +16,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.mc.client.client.object.Attribute;
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.Containable;
 import org.mc.client.client.object.Container;
 import org.mc.client.client.object.Dataset;
@@ -54,7 +54,7 @@ public class DBDao implements IDao {
 	}
 
 	@Override
-	public Object addConfig(Config config) {
+	public Object addConfig(McConfig config) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -235,25 +235,25 @@ public class DBDao implements IDao {
 	}
 
 	@Override
-	public Config getAccessPoint(String mart, String accesspoint) {
+	public McConfig getAccessPoint(String mart, String accesspoint) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Query query = session.createQuery(" from Config where name=:accesspoint and martid=:mart");
+		Query query = session.createQuery(" from McConfig where name=:accesspoint and martid=:mart");
 		query.setParameter("accesspoint",accesspoint);
 		query.setParameter("mart",this.getMartByName(mart).getId());
-		List<Config> clist = query.list();
+		List<McConfig> clist = query.list();
 		session.close();
 		if(clist.isEmpty())
 			return null;
 		else {
 			//FIXME: add mart manually
-			Config config = clist.get(0);
+			McConfig config = clist.get(0);
 			config.setMart(mart);
 			return config;
 		}
 	}
 
 	@Override
-	public Container getRootContainerRecursively(Config config) {
+	public Container getRootContainerRecursively(McConfig config) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		//get root container;
 		Query query = session.createQuery(" from Container where parentid=:parentid and level=0");
@@ -369,37 +369,37 @@ public class DBDao implements IDao {
 	}
 
 	@Override
-	public Collection<Config> getAllConfigsInMart(Mart mart) {
+	public Collection<McConfig> getAllConfigsInMart(Mart mart) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Query query = session.createQuery(" from Config where MARTID=:parentid order by ord");
+		Query query = session.createQuery(" from McConfig where MARTID=:parentid order by ord");
 		query.setParameter("parentid", mart.getId());
-		List<Config> gaplist = query.list();
+		List<McConfig> gaplist = query.list();
 		session.close();
-		for(Config config: gaplist) {
+		for(McConfig config: gaplist) {
 			config.setMart(mart.getName());
 		}
 		return gaplist;
 	}
 
 	@Override
-	public Collection<Config> getAllAccessPointInMart(Mart mart) {
+	public Collection<McConfig> getAllAccessPointInMart(Mart mart) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Query query = session.createQuery(" from Config where MARTID=:parentid and master=0 order by ord");
+		Query query = session.createQuery(" from McConfig where MARTID=:parentid and master=0 order by ord");
 		query.setParameter("parentid", mart.getId());
-		List<Config> gaplist = query.list();
+		List<McConfig> gaplist = query.list();
 		session.close();
-		for(Config config: gaplist) {
+		for(McConfig config: gaplist) {
 			config.setMart(mart.getName());
 		}
 		return gaplist;
 	}
 
 	@Override
-	public Config getMasterConfig(Mart mart) {
+	public McConfig getMasterConfig(Mart mart) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Query query = session.createQuery(" from Config where MARTID=:parentid and master=1");
+		Query query = session.createQuery(" from McConfig where MARTID=:parentid and master=1");
 		query.setParameter("parentid", mart.getId());
-		List<Config> gaplist = query.list();
+		List<McConfig> gaplist = query.list();
 		session.close();
 		if(gaplist.isEmpty())
 			return null;

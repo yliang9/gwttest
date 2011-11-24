@@ -21,7 +21,7 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.Container;
 import org.mc.client.client.object.FilterType;
 import org.mc.client.client.object.GuiAccessPoint;
@@ -77,14 +77,14 @@ public class RequestHandler {
 				getDaoObject().getSourceContainers();
 	}
 
-	public Config getAccessPoint(String mart, String accesspoint) {
+	public McConfig getAccessPoint(String mart, String accesspoint) {
 		return DaoFactoryV2.getFactory(DaoType.valueOf(Settings.getProperty("persistent.type"))).
 			getDaoObject().getAccessPoint(mart, accesspoint);
 	}
 	
 
 
-	public Container getRootContainerRecursively(Config config) {
+	public Container getRootContainerRecursively(McConfig config) {
 		return DaoFactoryV2.getFactory(DaoType.valueOf(Settings.getProperty("persistent.type"))).
 				getDaoObject().getRootContainerRecursively(config);
 	}
@@ -142,7 +142,7 @@ public class RequestHandler {
 				getDaoObject().getGuiAccessPoints(gc);
 	}
 	
-	public Config getMasterConfig(Mart mart) {
+	public McConfig getMasterConfig(Mart mart) {
 		return DaoFactoryV2.getFactory(DaoType.valueOf(Settings.getProperty("persistent.type"))).
 				getDaoObject().getMasterConfig(mart);
 	}

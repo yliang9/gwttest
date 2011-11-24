@@ -1,6 +1,6 @@
 package org.mc.client.client.widget;
 
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.view.client.ListDataProvider;
@@ -8,9 +8,9 @@ import com.google.gwt.view.client.TreeViewModel;
 
 public class ConfigTreeModel implements TreeViewModel {
 
-	private Config config;
+	private McConfig config;
 	
-	public ConfigTreeModel(Config config) {
+	public ConfigTreeModel(McConfig config) {
 		this.config = config;
 	}
 	
@@ -22,10 +22,13 @@ public class ConfigTreeModel implements TreeViewModel {
 			
 		//load data on the fly
 		if("root".equals(value)) {
-			ListDataProvider<Config> dataProvider = new ListDataProvider<Config>(); 
+			ListDataProvider<McConfig> dataProvider = new ListDataProvider<McConfig>(); 
 	        dataProvider.getList().add(this.config);
-	        return new DefaultNodeInfo<Config>(dataProvider, null);
+	        return new DefaultNodeInfo<McConfig>(dataProvider, new McConfigCell());
+		} else if(value instanceof McConfig) {
+			
 		}
+		
         ListDataProvider<String> dataProvider = new ListDataProvider<String>(); 
         dataProvider.getList().add(value + "." + String.valueOf(0));
         return new DefaultNodeInfo<String>(dataProvider, new TextCell());

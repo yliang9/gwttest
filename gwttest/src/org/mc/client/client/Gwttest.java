@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.mc.client.client.command.DialogCommand;
-import org.mc.client.client.object.Config;
+import org.mc.client.client.object.McConfig;
 import org.mc.client.client.object.GuiAccessPoint;
 import org.mc.client.client.object.GuiContainer;
 import org.mc.client.client.object.Mart;
@@ -168,11 +168,7 @@ public class Gwttest implements EntryPoint {
 		TabLayoutPanel tab = this.getDefaultPortalPanel();
 		portalPanel.add(tab);
 		
-		splitPanel = new SplitLayoutPanel(3);
-	//	splitPanel.setWidth("100%");
-	//	splitPanel.setHeight("100%");
-	//	splitPanel.getElement().getStyle().setProperty("border", "3px solid #e7e7e7");
-		
+		splitPanel = new SplitLayoutPanel(3);		
 		splitPanel.addWest(sourceGroupPanel, 300);
 		splitPanel.add(portalPanel);
 		
@@ -368,7 +364,7 @@ public class Gwttest implements EntryPoint {
 		}
 	}
 	
-	private void showConfig(Mart mart, Config config) {
+	private void showConfig(Mart mart, McConfig config) {
 		this.mainPanel.clear();
 		this.mainPanel.add(this.getConfigPanel(mart,config));
 	}
@@ -420,7 +416,7 @@ public class Gwttest implements EntryPoint {
 		return table;
 	}
 	
-	private Widget getConfigPanel(Mart mart, Config config) {
+	private Widget getConfigPanel(Mart mart, McConfig config) {
 		SplitLayoutPanel configPanel = new SplitLayoutPanel(5);
 		configPanel.setWidth("100%");
 		configPanel.setHeight("100%");
@@ -429,12 +425,12 @@ public class Gwttest implements EntryPoint {
 		final ScrollPanel sptarget = new ScrollPanel();
 		//get master config for mart
 		ConfiguratorServiceAsync service = GWT.create(ConfiguratorService.class);
-		AsyncCallback<Config> callback = new AsyncCallback<Config>() {
+		AsyncCallback<McConfig> callback = new AsyncCallback<McConfig>() {
 		      public void onFailure(Throwable caught) {
 		    	  System.out.println("t");
 		      }
 	
-		      public void onSuccess(Config result) {
+		      public void onSuccess(McConfig result) {
 		    	  resetTree(spsource,result);
 		      }
 		};		
@@ -447,8 +443,8 @@ public class Gwttest implements EntryPoint {
 	     * Create the tree using the model. We specify the default value of the
 	     * hidden root node as "Item 1".
 	     */
-	    CellTree treeSource = new CellTree(model, "Config");
-	    CellTree treeTarget = new CellTree(model,"Config");
+	    CellTree treeSource = new CellTree(model, "root");
+	    CellTree treeTarget = new CellTree(model,"root");
 		//create source 		
 		SplitLayoutPanel sourcePanel = new SplitLayoutPanel(5);
 		SplitLayoutPanel targetPanel = new SplitLayoutPanel(5);
@@ -464,10 +460,10 @@ public class Gwttest implements EntryPoint {
 		return configPanel;
 	}
 	
-	private void resetTree(ScrollPanel sp, Config config) {
+	private void resetTree(ScrollPanel sp, McConfig config) {
 		sp.clear();
 		TreeViewModel model = new ConfigTreeModel(config);
-		CellTree tree = new CellTree(model, "Config");
+		CellTree tree = new CellTree(model, "root");
 		
 		sp.add(tree); 
 	}
