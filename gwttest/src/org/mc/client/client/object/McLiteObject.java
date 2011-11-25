@@ -2,6 +2,7 @@ package org.mc.client.client.object;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -23,7 +24,7 @@ public abstract class McLiteObject implements Serializable {
 	private Map<String,String> properties;
 	
 	protected McLiteObject() {
-		this.properties = new HashMap<String,String>();
+		this.properties = new LinkedHashMap<String,String>();
 	}
 	
 	public String getName() {
@@ -126,5 +127,9 @@ public abstract class McLiteObject implements Serializable {
 	
 	public void setValid(boolean b) {
 		this.valid = b;
+	}
+	
+	public Map<String,String> getProperties() {
+		return this.properties;
 	}
 }

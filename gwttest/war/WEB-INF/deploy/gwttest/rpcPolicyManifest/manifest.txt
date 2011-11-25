@@ -1,3 +1,3 @@
 # Module gwttest
 # RPC service class, partial path of RPC policy file
-org.mc.client.client.ConfiguratorService, C59B068660D0574C91105CE0E85A662E.gwt.rpc
+org.mc.client.client.ConfiguratorService, 97FB7954390D07DA8E22D3C7F9DF4E37.gwt.rpc

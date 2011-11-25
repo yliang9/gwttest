@@ -360,6 +360,7 @@ public class Settings {
 		try {
 		    properties.load(new FileInputStream("conf/xml/biomart.gui.properties"));
 		} catch (IOException e) {
+			e.printStackTrace();
 			Log.error("load properties error");
 		}
 		@SuppressWarnings("unchecked")
@@ -374,10 +375,13 @@ public class Settings {
 	
 	public static void loadAllConfigProperties() {
 		//load into system property
+		File file = new File(".");
+		System.err.println("path "+file.getAbsolutePath());
 		Properties properties = new Properties();
 		try {
 		    properties.load(new FileInputStream("conf/xml/biomart.all.properties"));
 		} catch (IOException e) {
+			e.printStackTrace();
 			Log.error("load properties error");
 		}
 		@SuppressWarnings("unchecked")
@@ -395,6 +399,7 @@ public class Settings {
 		try {
 		    properties.load(new FileInputStream("conf/xml/biomart.web.properties"));
 		} catch (IOException e) {
+			e.printStackTrace();
 			Log.error("load properties error");
 		}
 		@SuppressWarnings("unchecked")
